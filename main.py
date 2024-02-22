@@ -45,34 +45,64 @@ class TLE:
     
     """
     #def compute_year_launched(self): 
-    #def get_year_launched(self): 
+
+    def get_year_launched(self): 
+        self.compute_year_launched()
+        return self.year_launched
     
     #def compute_period(self):
-    #def get_period(self):
+    
+    def get_period(self):
+        self.compute_period()
+        return self.period
     
     #def compute_a(self):
-    #def get_a(self):
     
-    #def compute_altitude(self):
-    #def get_altitude(self):
+    def get_a(self):
+        self.compute_a()
+        return self.a
+    
+    #def compute_altitude(self)
+
+    def get_altitude(self):
+        self.compute_altitude()
+        return self.altitude
         
     #def compute_orbit_type(self):   
-    #def get_orbit_type(self):
+
+    def get_orbit_type(self):
+        self.compute_orbit_type()
+        return self.orbit_type
     
     #def compute_orbits_per_day(self):
-    #def get_orbits_per_day(self):
+    
+    def get_orbits_per_day(self):
+        self.compute_orbits_per_day()
+        return self.orbits_per_day
     
     #def compute_speed(self):
-    #def get_speed(self):
+    
+    def get_speed(self):
+        self.compute_speed()
+        return self.speed
     
     #def compute_theta(self):
-    #def get_theta(self):
+    
+    def get_theta(self):
+        self.compute_theta()
+        return self.theta
     
     #def compute_r(self): 
-    #def get_r(self):
+
+    def get_r(self):
+        self.compute_r()
+        return self.r
 
     #def compute_v(self):
-    #def get_v(self):
+    
+    def get_v(self):
+        self.compute_v()
+        return self.v
 
 
 """
