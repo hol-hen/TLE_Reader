@@ -114,7 +114,32 @@ Main Functions
 #def datestr(date_julian): 
 
 #function to read and extract information from the TLE, (many returns)
-#def readTLE(textfile):
+def readTLE(textfile):
+    #open TLE file and read lines
+    file = open(textfile, 'r')
+    lines = file.readlines() #read lines and store as lines list
+    file.close()
+    
+    #remove any blank spaces and rejoin to get satellite object name
+    objectname = " ".join(lines[0][:-1].split())  
+
+    #store TLE as list (exclude name)
+    data = lines[1][:-1].split() + lines[2][:-1].split() 
+    
+    #extract info from the data list - angle units in degrees
+    ideg = float(data[11])
+    RAANdeg = float(data[12])
+    e = float('0.{}'.format(data[13]))
+    wdeg = float(data[14])
+    ndeg =  float(data[16])
+    Mdeg = float(data[15])
+    julian_date = float(data[3])
+    date_string = datestr(julian_date)
+    year = float(data[2][:2])
+    sat_id = float(data[10]) 
+    
+    return objectname, ideg, RAANdeg, e, wdeg, ndeg, Mdeg, julian_date, date_string, year, sat_id
+
 
 #Function to calculate and return eccentric anomaly using Newton's method
 #def kepler_E(e,M): 
@@ -159,10 +184,16 @@ Main Functions
 #def main():
     
     #Title and instructions
+    print('\n')
+    print('- - - - - - - - - - TLE Reader - - - - - - - - - -')
+    print("This program analyses the TLE of an object")
+    print('\n')
 
-    #Get file name of TLE as input    
+    #Get file name of TLE as input 
+    objectfile = input('Enter TLE text file of object: ')   
     
     #read TLE file by calling function READtle()
+    name1, ideg1, RAANdeg1, e1, wdeg1, ndeg1, Mdeg1, juliandate1, date_string1, year1, sat_id1 = readTLE(objectfile) 
     
     #instantiate class TLE by using output of readTLE()
 
