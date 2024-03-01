@@ -27,18 +27,27 @@ class TLE:
 
     """
     Constructor
-    - satellite name
     - satellite ID
     - year launched
-    - time of reading
-    - mean motion
-    - inclination
-    - right ascension of the ascending node
+    - time of reading (julian date fraction)
+    - mean motion (n) in rev/day
+    - inclination in degrees
+    - right ascension of the ascending node (RAAN) in degrees
     - eccentricity
-    - argument of perigee
-    - mean anomaly
+    - argument of perigee (w) in degrees
+    - mean anomaly (M) in degrees
     """
-    #def __init__(): 
+    def __init__(self, i, RAAN, e, w, n, M, juliandate, year, sat_id): 
+        self.sat_id = sat_id 
+        self._year = year 
+        self.juliandate = juliandate 
+        self.n =  n * 2*pi/86400 
+        self.i = i * pi/180 
+        self.RAAN = RAAN * pi/180 
+        self.e = e 
+        self.w = w * pi/180 
+        self.M = M * pi/180 
+        
 
     """
     Functions
@@ -181,7 +190,7 @@ def readTLE(textfile):
 #def exit_restart():
 
 #Main script
-#def main():
+def main():
     
     #Title and instructions
     print('\n')
@@ -196,6 +205,10 @@ def readTLE(textfile):
     name1, ideg1, RAANdeg1, e1, wdeg1, ndeg1, Mdeg1, juliandate1, date_string1, year1, sat_id1 = readTLE(objectfile) 
     
     #instantiate class TLE by using output of readTLE()
+    TLE1 = TLE(i = ideg1, RAAN = RAANdeg1, e = e1,
+                   w = wdeg1, n = ndeg1, M = Mdeg1,
+                   juliandate = juliandate1, year = year1, 
+                   sat_id = sat_id1)
 
     #print information by calling text_print() function
     text_print(name1, date_string1, TLE1) 
