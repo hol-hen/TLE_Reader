@@ -30,12 +30,12 @@ class TLE:
     - satellite ID
     - year launched
     - time of reading (julian date fraction)
-    - mean motion (n) in rev/day
-    - inclination in degrees
-    - right ascension of the ascending node (RAAN) in degrees
+    - mean motion (n) in rad/s
+    - inclination in radians
+    - right ascension of the ascending node (RAAN) in radians
     - eccentricity
-    - argument of perigee (w) in degrees
-    - mean anomaly (M) in degrees
+    - argument of perigee (w) in radians
+    - mean anomaly (M) in radians
     """
     def __init__(self, i, RAAN, e, w, n, M, juliandate, year, sat_id): 
         self.sat_id = sat_id 
@@ -154,7 +154,31 @@ def readTLE(textfile):
 #def kepler_E(e,M): 
 
 #function to create and return information text for object
-#def text(name, date_string, TLE): 
+def text(name, date_string, TLE): 
+    text = [
+    #General info  
+    '------------------------------ {} ------------------------------'.format(name),
+    'NORAD ID:                  {:0.0f}'.format(TLE.sat_id),
+    'Year Launched:             {}'.format(int(TLE.get_year_launched())),
+    'Orbit Type:                {}'.format(TLE.get_orbit_type()),
+    
+    '\n',
+    
+    #TLE observation info
+    'TLE observation time:      {}'.format(date_string),
+    'Altitude at time:          {:0.2f} km'. format(TLE.get_altitude()),
+    'Speed at time:             {:0.2f} km/s'. format(TLE.get_speed()),
+    
+    '\n',
+    
+    #Orbit info
+    'Orbital Period:            {:0.2f} mins'. format(TLE.get_period()/60),
+    'Number of orbits per day:  {:0.2f}'. format(TLE.get_orbits_per_day()),
+    'Orbit inclination:         {:0.2f} degrees'. format(TLE.i*180/pi),
+    'Orbit eccentricity:        {:0.5f}'. format(TLE.e),
+    'Orbit RAAN:                {:0.2f} degrees'.format(TLE.RAAN*180/pi),
+    'Orbit AOP:                 {:0.2f} degrees'.format(TLE.w*180/pi)]
+    return text
 
 #function to print information on console
 #def text_print(name, date_string, TLE):
