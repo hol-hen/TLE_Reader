@@ -226,7 +226,20 @@ def readTLE(textfile):
 
 
 #Function to calculate and return eccentric anomaly using Newton's method
-#def kepler_E(e,M): 
+def kepler_E(e,M): 
+    step_size = 1e-8 #integration step
+    if M < pi:#check which quadrant Mean anomaly in (because it is an angle)
+        E = M + e/2
+    else:
+        E = M - e/2
+    
+    ratio = 1
+
+    #find convergence point = eccentric anomaly
+    while abs(ratio) > step_size:
+            ratio = (E - e*sin(E) - M)/(1 - e*cos(E))
+            E = E - ratio
+    return E
 
 #function to create and return information text for object
 def text(name, date_string, TLE): 
@@ -268,29 +281,83 @@ def text_print(name, date_string, TLE):
 #function to save information as a text file        
 #def save_txt_file(name, date_string, TLE):
 
-#Function to plot the orbit of the satellite and save as a .png file
-#def orbit_plot(name, TLE):
+def orbit_plot(name, TLE):
 
-    #Define initial values in orbit
+    # define initial values in orbit
+    r_0 = TLE.get_r()
+    v_0 = TLE.get_v()
+    t_0 = 0
+    t_n = TLE.get_period()
+    dt = t_n / 100000 #integration step 
+    r = r_0.copy()
+    v = v_0.copy()
+    t = t_0
+    orbit = [r.copy()]
+    vel = [v.copy()]
+    times = [t]
     
     #Euler Loop
+    while t < t_n:
+        #calculate change in r and v vectors for each integration step
+        r3 = sum((-r)**2)**1.5
+        r = r + dt * v
+        v = v - dt * G * m_earth * (r) / r3
+        t = t + dt
+        #append orbit lists for plotting
+        orbit.append(r.copy())
+        vel.append(v.copy())
+        times.append(t)
     
     #Convert into coordinates to be plotted
+    x,y,z = np.asarray(orbit).T
     
     #Create a figure with 3D axes
+    fig = plt.figure(1)
+    ax = plt.axes(projection='3d') #create 3d plot
 
-    #Create earth on the 3D plot
-   
-    # Plot orbit of the object
+    #define surface of Earth
+    theta1 = np.linspace(0, 2*pi, 100)
+    theta2 = np.linspace(0, pi, 100)
+    x_s = re * np.outer(np.cos(theta1), np.sin(theta2))
+    y_s = re * np.outer(np.sin(theta1), np.sin(theta2))
+    z_s = re * np.outer(np.ones(np.size(theta1)), np.cos(theta2))
+       
+    #plot surface of Earth
+    ax.plot_wireframe(x_s, y_s, z_s, color='#23395d', alpha = 0.2) #changed transparency of wireframe Earth because matplotlib does not integrate well with the plotted lines and would not be able to see orbit at all otherwise.
+    
+    # Plot body 2 orbit
+    ax.plot3D(x/1000,y/1000,z/1000, 'r'); #plotting in km 
+    ax.scatter(r[0]/1000,r[1]/1000,r[2]/1000, c='r', marker='o'); #mark satellite point at TLE
+    ax.text2D(0.05, 0.93, "Orbit of {}".format(name) , fontsize = 14, transform=ax.transAxes) #title
 
-    # save graph as .png file
+    #create axis limits, to ensure scale is right for all orbits
+    ax.set_xlim3d(-TLE.get_a(), TLE.get_a()) #define in terms of apogee (furthest point form earth) to make all sats fit
+    ax.set_ylim3d(-TLE.get_a(), TLE.get_a())
+    ax.set_zlim3d(-TLE.get_a(), TLE.get_a())
 
+    #add x, y, z to axis labels for orientation
+    ax.set_xlabel("x", fontsize = 12)
+    ax.set_ylabel("y", fontsize = 12)
+    ax.set_zlabel("z", fontsize = 12)
+
+    #remove axis numbers (takes away from the visualisation)
+    ax.xaxis.set_ticklabels([])
+    ax.yaxis.set_ticklabels([])
+    ax.zaxis.set_ticklabels([])
+
+    #save graph as .png file
+    plt.savefig('{}_orbit.png'.format(name))
 
 #Function to ask to save text file and then do so if yes
 def ask_save_graph(name, TLE):
     graph = 0
     while graph not in ("Y", "y", "N", 'n'):
         graph = input('Do you want to get a visualisation of the orbit? (Y/N): ') #ask for user response
+
+    if graph == 'Y' or graph == 'y': #if yes call function orbit_plot() to run plot sequence
+        orbit_plot(name, TLE)
+        print('Your graph has been saved as {}_orbit.png'.format(name)) #tell user what it has been saved as
+
 
 
 #Function to ask to save text file and then do so if yes
