@@ -287,7 +287,11 @@ def text_print(name, date_string, TLE):
 
 
 #Function to ask to save text file and then do so if yes
-#def ask_save_graph(name, TLE):
+def ask_save_graph(name, TLE):
+    graph = 0
+    while graph not in ("Y", "y", "N", 'n'):
+        graph = input('Do you want to get a visualisation of the orbit? (Y/N): ') #ask for user response
+
 
 #Function to ask to save text file and then do so if yes
 #def ask_save_txt(name, date_string, TLE):
@@ -322,7 +326,7 @@ def main():
     print('\n')
 
     #ask and save graph by calling ask_save_graph() function
-    #ask_save_graph(name1, TLE1) 
+    ask_save_graph(name1, TLE1) 
 
     print('\n')
 
