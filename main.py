@@ -8,6 +8,8 @@ Created on Wednesday Feb 21 13:47:48 2024
 """
 
 # Packages
+import datetime
+import calendar
 from math import pi, cos, sin, tan, sqrt, acos, asin, atan, floor
 import numpy as np
 import matplotlib.pyplot as plt
@@ -178,7 +180,22 @@ Main Functions
 """
 
 #Function to convert from julian time to gregorian time and return a string
-#def datestr(date_julian): 
+def datestr(date_julian): 
+
+    #convert date to gregorian format (YYYY-MM-DD)
+    date = datetime.datetime.strptime(str(floor(date_julian)), '%y%j').date() 
+    date = str(date).split('-') 
+    month = calendar.month_name[int(date[1])]
+
+    #convert decimal format to hour, mins and secs                              
+    UTCtime = float(str(date_julian)[5:]) 
+    UTChour = '{0}'.format(str(floor(UTCtime*24)).zfill(2)) 
+    UTCminutes = '{0}'.format(str(floor(UTCtime*1440 % 24)).zfill(2)) 
+    UTCsecond = '{0}'.format(str(round(UTCtime*86400 %60)).zfill(2)) 
+
+    # save and return string   
+    date_string = '{}:{}:{} UTC {} {} {}'.format(UTChour, UTCminutes, UTCsecond, date[2], month, date[0]) 
+    return date_string
 
 #function to read and extract information from the TLE, (many returns)
 def readTLE(textfile):
@@ -239,7 +256,14 @@ def text(name, date_string, TLE):
     return text
 
 #function to print information on console
-#def text_print(name, date_string, TLE):
+def text_print(name, date_string, TLE):
+    #call text() function to get required text
+    a = text(name, date_string, TLE)  
+    
+    #print info on console
+    print('\n') 
+    for i in a:
+        print(i) 
 
 #function to save information as a text file        
 #def save_txt_file(name, date_string, TLE):
@@ -298,17 +322,17 @@ def main():
     print('\n')
 
     #ask and save graph by calling ask_save_graph() function
-    ask_save_graph(name1, TLE1) 
+    #ask_save_graph(name1, TLE1) 
 
     print('\n')
 
     #ask and save text file by ask_save_txt() function
-    ask_save_txt(name1, date_string1, TLE1) 
+    #ask_save_txt(name1, date_string1, TLE1) 
 
     print('\n')
 
     #ask to exit or restart by calling exit_restart() function
-    exit_restart() 
+    #exit_restart() 
 
 
 if __name__ == "__main__":
