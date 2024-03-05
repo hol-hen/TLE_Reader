@@ -14,6 +14,7 @@ from math import pi, cos, sin, tan, sqrt, acos, asin, atan, floor
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
+import os
 
 
 # Constants
@@ -279,7 +280,19 @@ def text_print(name, date_string, TLE):
         print(i) 
 
 #function to save information as a text file        
-#def save_txt_file(name, date_string, TLE):
+def save_txt_file(name, date_string, TLE):
+    a = text(name, date_string, TLE) 
+    
+     #open file
+    f = open('{}_orbit.txt'.format(name), 'w')
+    
+    #write each on a new line
+    for i in a:
+        f.write(i)
+        f.write('\n')
+
+    #close file    
+    f.close() 
 
 def orbit_plot(name, TLE):
 
@@ -361,10 +374,29 @@ def ask_save_graph(name, TLE):
 
 
 #Function to ask to save text file and then do so if yes
-#def ask_save_txt(name, date_string, TLE):
+def ask_save_txt(name, date_string, TLE):
+    text = 0
+    while text not in ("Y", "y", "N", 'n'):
+        text = input('Do you want to save the data of the orbit as text file? (Y/N): ') 
+
+    if text == 'Y' or text == 'y':
+            save_txt_file(name, date_string, TLE) 
+            print('Your file has been saved as {}_orbit.txt'.format(name)) 
+
 
 #Function to restart or exit program
-#def exit_restart():
+def exit_restart():
+    run_exit = 0
+    
+    #ask for user response
+    while run_exit not in('', 's', 'S'):
+        run_exit = input('- - - - - Press enter to exit or S to start again- - - - -') 
+               
+    if run_exit == '':
+        os._exit(os.EX_OK) 
+    elif run_exit == 'S' or 's':
+        main()  
+
 
 #Main script
 def main():
@@ -398,12 +430,12 @@ def main():
     print('\n')
 
     #ask and save text file by ask_save_txt() function
-    #ask_save_txt(name1, date_string1, TLE1) 
+    ask_save_txt(name1, date_string1, TLE1) 
 
     print('\n')
 
     #ask to exit or restart by calling exit_restart() function
-    #exit_restart() 
+    exit_restart() 
 
 
 if __name__ == "__main__":

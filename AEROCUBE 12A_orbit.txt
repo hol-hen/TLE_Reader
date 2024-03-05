@@ -1,0 +1,17 @@
+------------------------------ AEROCUBE 12A ------------------------------
+NORAD ID:                  43556
+Year Launched:             2018
+Orbit Type:                LEO (Low Earth Orbit)
+
+
+TLE observation time:      19:02:33 UTC 07 April 2021
+Altitude at time:          471.81 km
+Speed at time:             7.63 km/s
+
+
+Orbital Period:            94.04 mins
+Number of orbits per day:  15.31
+Orbit inclination:         51.64 degrees
+Orbit eccentricity:        0.00073
+Orbit RAAN:                129.87 degrees
+Orbit AOP:                 272.16 degrees
