@@ -24,6 +24,8 @@ mu2 = 3.986004418e5 #Earth grav constant with km^3
 re = 6378.1370 #Earth radius km
 m_earth = 5.972e24  #Mass of Earth
 
+input_folder = "src/inputs/"
+output_folder = "outputs/"
 
 """
 TLE Class:
@@ -201,7 +203,7 @@ def datestr(date_julian):
 #function to read and extract information from the TLE, (many returns)
 def readTLE(textfile):
     #open TLE file and read lines
-    file = open(textfile, 'r')
+    file = open(input_folder + textfile, 'r')
     lines = file.readlines() #read lines and store as lines list
     file.close()
     
@@ -284,7 +286,7 @@ def save_txt_file(name, date_string, TLE):
     a = text(name, date_string, TLE) 
     
      #open file
-    f = open('{}_orbit.txt'.format(name), 'w')
+    f = open(output_folder + '{}_orbit.txt'.format(name), 'w')
     
     #write each on a new line
     for i in a:
@@ -359,7 +361,7 @@ def orbit_plot(name, TLE):
     ax.zaxis.set_ticklabels([])
 
     #save graph as .png file
-    plt.savefig('{}_orbit.png'.format(name))
+    plt.savefig(output_folder + '{}_orbit.png'.format(name))
 
 #Function to ask to save text file and then do so if yes
 def ask_save_graph(name, TLE):
