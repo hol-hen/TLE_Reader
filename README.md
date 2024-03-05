@@ -14,7 +14,7 @@ The program converts the standard TLE file format https://en.wikipedia.org/wiki/
 Includes additional info including orbit type, altitude, speed, orbital period, orbits per day, using orbital calculations.\
 It can also create a visualisation of the orbit.
 
-![Example Picture](./images/example_2.png)
+![Example Picture](src/ReadmeImages/example_2.png)
 
 ## Technologies
 Project is created with python 3.
